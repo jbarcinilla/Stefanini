@@ -1,0 +1,13 @@
+[
+    { "id": 1, "nombre": "Laptop Gamer", "precio": 1200.99 },
+    { "id": 2, "nombre": "Auriculares Bluetooth", "precio": 75.50 },
+    { "id": 3, "nombre": "Smartphone", "precio": 899.99 },
+    { "id": 4, "nombre": "Teclado Mecánico", "precio": 150.00 },
+    { "id": 5, "nombre": "Mouse Inalámbrico", "precio": 45.99 },
+    { "id": 6, "nombre": "Monitor 27''", "precio": 320.00 },
+    { "id": 7, "nombre": "Silla Gamer", "precio": 199.90 },
+    { "id": 8, "nombre": "Disco SSD 1TB", "precio": 129.99 },
+    { "id": 9, "nombre": "Impresora Láser", "precio": 210.75 },
+    { "id": 10, "nombre": "Tablet Android", "precio": 350.00 }
+]
+
