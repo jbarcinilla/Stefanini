@@ -1,6 +1,8 @@
 package com.example.demo.services;
 
 
+import com.example.demo.entity.ProductEntity;
+import com.example.demo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -8,17 +10,17 @@ import java.util.Optional;
 
 
 @Service
-public class Product {
+public class ProductServices {
 
-    private final com.example.demo.repository.Product productRepository;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public Product(com.example.demo.repository.Product productRepository) {
+    public ProductServices(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
     // Guardar un producto
-    public com.example.demo.entity.Product saveProduct(com.example.demo.entity.Product product) {
+    public ProductEntity saveProduct(ProductEntity product) {
         return productRepository.save(product);
     }
 
@@ -28,12 +30,12 @@ public class Product {
     }
 
     // Listar todos los productos
-    public List<com.example.demo.entity.Product> getAllProducts() {
+    public List<ProductEntity> getAllProducts() {
         return productRepository.findAll();
     }
 
     // Buscar un producto por ID
-    public Optional<com.example.demo.entity.Product> getProductById(Long id) {
+    public Optional<ProductEntity> getProductById(Long id) {
         return productRepository.findById(id);
     }
 

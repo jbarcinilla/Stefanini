@@ -3,12 +3,13 @@ import { ProductService } from '../../services/product.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http'
 
 
 interface Producto {
   id: number;
-  nombre: string;
-  precio: number;
+  name: string;
+  price: number;
 }
 
 @Component({
@@ -27,30 +28,28 @@ export class ProductListComponent {
   constructor(private productoService: ProductService, private fb: FormBuilder) {
     this.productoForm = this.fb.group({
       id: [null],
-      nombre: ['', Validators.required],
-      precio: ['', [Validators.required, Validators.min(0)]],
+      name: ['', Validators.required],
+      price: ['', [Validators.required, Validators.min(0)]],
     });
 
-    this.productoService.getProductos().subscribe(data => {
+    this.productoService.getProduct().subscribe(data => {
       this.productos = data;
     });
   }
 
   agregarProducto(): void {
     if (this.productoForm.valid) {
-      if (this.editando) {
-        this.productoEditando!.nombre = this.productoForm.value.nombre;
-        this.productoEditando!.precio = this.productoForm.value.precio;
-        this.productoEditando!.id = this.productoForm.value.id;
-        this.editando = false;
-        this.productoEditando = null;
-      } else {
-        const nuevoProducto: Producto = this.productoForm.value;
-        this.productos.push(nuevoProducto);
-      }
-      this.productoForm.reset();
+      const nuevoProducto: Producto = this.productoForm.value;
+      this.productoService.crearProducto(nuevoProducto).subscribe(
+        (response: HttpResponse<Producto>) => {
+          console.log('Código de respuesta:', response.status);
+          this.productoForm.reset();
+        },
+        error => {
+          console.error('Error al crear el producto:', error);
+        }
+      );
     } else {
-      // Muestra errores de validación
       this.productoForm.markAllAsTouched();
     }
   }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor // Genera un constructor vacío (obligatorio para Jackson)
 @AllArgsConstructor // Genera un constructor con todos los parámetros
 @Entity
-public class Product {
+public class ProductEntity {
 
     @Id
     private int id;
