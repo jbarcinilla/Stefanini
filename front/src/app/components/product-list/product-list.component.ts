@@ -28,7 +28,7 @@ export class ProductListComponent {
     this.productoForm = this.fb.group({
       id: [null],
       nombre: ['', Validators.required],
-      precio: [0, Validators.required]
+      precio: ['', [Validators.required, Validators.min(0)]],
     });
 
     this.productoService.getProductos().subscribe(data => {
@@ -37,17 +37,22 @@ export class ProductListComponent {
   }
 
   agregarProducto(): void {
-    if (this.editando) {
-      this.productoEditando!.nombre = this.productoForm.value.nombre;
-      this.productoEditando!.precio = this.productoForm.value.precio;
-      this.productoEditando!.id = this.productoForm.value.id;
-      this.editando = false;
-      this.productoEditando = null;
+    if (this.productoForm.valid) {
+      if (this.editando) {
+        this.productoEditando!.nombre = this.productoForm.value.nombre;
+        this.productoEditando!.precio = this.productoForm.value.precio;
+        this.productoEditando!.id = this.productoForm.value.id;
+        this.editando = false;
+        this.productoEditando = null;
+      } else {
+        const nuevoProducto: Producto = this.productoForm.value;
+        this.productos.push(nuevoProducto);
+      }
+      this.productoForm.reset();
     } else {
-      const nuevoProducto: Producto = this.productoForm.value;
-      this.productos.push(nuevoProducto);
+      // Muestra errores de validación
+      this.productoForm.markAllAsTouched();
     }
-    this.productoForm.reset();
   }
 
   editarProducto(producto: Producto): void {
