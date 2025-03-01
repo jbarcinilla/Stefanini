@@ -1,7 +1,7 @@
 <div class="container mt-4">
     <h2 class="text-center mb-4">Lista de Productos</h2>
   
-    <form [formGroup]="productoForm" (ngSubmit)="agregarProducto()">
+    <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
 
       <div class="form-group">
             <label for="id">id</label>
@@ -31,13 +31,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let producto of productos">
-          <td>{{ producto.id }}</td>
-          <td>{{ producto.name }}</td>
-          <td>{{ producto.price | currency }}</td>
+        <tr *ngFor="let product of product">
+          <td>{{ product.id }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.price | currency }}</td>
           <td>
-            <button (click)="editarProducto(producto)" class="btn btn-warning btn-sm">Editar</button>
-            <button (click)="eliminarProducto(producto.id)" class="btn btn-danger btn-sm">Eliminar</button>
+            <button (click)="editProduct(product)" class="btn btn-warning btn-sm">Editar</button>
+            <button (click)="deleteProduct(product.id)" class="btn btn-danger btn-sm">Eliminar</button>
           </td>
         </tr>
       </tbody>

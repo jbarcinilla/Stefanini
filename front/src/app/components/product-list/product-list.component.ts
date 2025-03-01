@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpResponse } from '@angular/common/http'
 
 
-interface Producto {
+interface Product {
   id: number;
   name: string;
   price: number;
@@ -20,47 +20,59 @@ interface Producto {
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent {
-  productos: Producto[] = [];
-  productoForm: FormGroup;
+  product: Product[] = [];
+  productForm: FormGroup;
   editando: boolean = false;
-  productoEditando: Producto | null = null;
+  productoEditando: Product | null = null;
 
   constructor(private productoService: ProductService, private fb: FormBuilder) {
-    this.productoForm = this.fb.group({
+    this.productForm = this.fb.group({
       id: [null],
       name: ['', Validators.required],
       price: ['', [Validators.required, Validators.min(0)]],
     });
 
-    this.productoService.getProduct().subscribe(data => {
-      this.productos = data;
+    this.productoService.list().subscribe(data => {
+      this.product = data;
     });
   }
 
-  agregarProducto(): void {
-    if (this.productoForm.valid) {
-      const nuevoProducto: Producto = this.productoForm.value;
-      this.productoService.crearProducto(nuevoProducto).subscribe(
-        (response: HttpResponse<Producto>) => {
+  saveProduct(): void {
+    if (this.productForm.valid) {
+      const newProduct: Product = this.productForm.value;
+      this.productoService.save(newProduct).subscribe(
+        (response: HttpResponse<Product>) => {
           console.log('Código de respuesta:', response.status);
-          this.productoForm.reset();
+          this.product.push(newProduct);
+          this.productForm.reset();
         },
         error => {
           console.error('Error al crear el producto:', error);
         }
       );
     } else {
-      this.productoForm.markAllAsTouched();
+      this.productForm.markAllAsTouched();
     }
   }
 
-  editarProducto(producto: Producto): void {
-    this.productoForm.setValue(producto);
+  editProduct(product: Product): void {
+    this.productForm.setValue(product);
     this.editando = true;
-    this.productoEditando = producto;
+    this.productoEditando = product;
   }
 
-  eliminarProducto(id: number): void {
-    this.productos = this.productos.filter(p => p.id !== id);
+  deleteProduct(id: number): void {
+    this.product = this.product.filter(p => p.id !== id);
+    this.productoService.delete(id).subscribe(
+      (response: HttpResponse<void>) => {
+        console.log('Código de respuesta:', response.status);
+        
+        this.productForm.reset();
+      },
+      error => {
+        console.error('Error al crear el producto:', error);
+      }
+    );
+
   }
 }

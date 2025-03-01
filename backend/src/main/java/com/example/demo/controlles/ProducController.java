@@ -17,14 +17,14 @@ public class ProducController {
     private ProductServices productoService;
 
     @PostMapping
-    public ResponseEntity<Void> guardarProducto(@RequestBody ProductEntity nuevoProducto) {
+    public ResponseEntity<Void> saveProduct(@RequestBody ProductEntity nuevoProducto) {
         //productoService.guardarProducto(nuevoProducto);
         productoService.saveProduct(nuevoProducto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> actualizarProducto(@PathVariable int id, @RequestBody ProductEntity producto) {
+    public ResponseEntity<Void> updateProduct(@PathVariable int id, @RequestBody ProductEntity producto) {
         producto.setId(id); // Asegúrate de que el ID del producto a actualizar sea correcto
         //boolean actualizado = productoService.actualizarProducto(producto);
         ProductEntity actualizado = productoService.saveProduct(producto);
@@ -33,6 +33,12 @@ public class ProducController {
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        productoService.deleteProduct(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping

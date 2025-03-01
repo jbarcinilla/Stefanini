@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-interface Producto {
+interface Product {
   id: number;
   name: string;
   price: number;
@@ -18,11 +18,17 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  getProduct(): Observable<Producto[]> {
-    return this.http.get<Producto[]>(this.apiUrl);
+  list(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiUrl);
   }
 
-  crearProducto(producto: Producto): Observable<HttpResponse<Producto>> {
-    return this.http.post<Producto>(this.apiUrl, producto, { observe: 'response' });
+  save(product: Product): Observable<HttpResponse<Product>> {
+    return this.http.post<Product>(this.apiUrl, product, { observe: 'response' });
   }
+
+  delete(productId: number): Observable<HttpResponse<void>> {
+    return this.http.delete<void>(`${this.apiUrl}/${productId}`, { observe: 'response' });
+  }
+  
+
 }
