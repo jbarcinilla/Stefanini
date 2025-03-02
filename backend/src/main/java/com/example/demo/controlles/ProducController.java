@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
@@ -23,12 +24,10 @@ public class ProducController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> updateProduct(@PathVariable int id, @RequestBody ProductEntity producto) {
-        producto.setId(id); // Asegúrate de que el ID del producto a actualizar sea correcto
-        //boolean actualizado = productoService.actualizarProducto(producto);
-        ProductEntity actualizado = productoService.saveProduct(producto);
-        if (actualizado!=null) {
+    @PutMapping
+    public ResponseEntity<Void> updateProduct( @RequestBody ProductEntity product) {
+        ProductEntity update = productoService.saveProduct(product);
+        if (update!=null) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -39,6 +38,16 @@ public class ProducController {
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productoService.deleteProduct(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Void> getProductId(@PathVariable Long id) {
+        Optional op= productoService.getProductById(id);
+         if(op.isPresent()){
+             return new ResponseEntity<>(HttpStatus.OK);
+         }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 
     @GetMapping
