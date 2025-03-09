@@ -50,6 +50,7 @@ public class ProducController {
 
     }
 
+
     @GetMapping
     public List<ProductEntity> list() {
         return productoService.getAllProducts();
