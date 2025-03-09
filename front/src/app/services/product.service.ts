@@ -19,7 +19,7 @@ export class ProductService {
   constructor(private http: HttpClient) {}
 
   private username: string = 'juan';
-  private password: string = 'abc123'; // Password encriptado
+  private password: string = 'abc123'; 
 
   getAuthHeaders(): HttpHeaders {
     const base64Credentials = btoa(`${this.username}:${this.password}`);
